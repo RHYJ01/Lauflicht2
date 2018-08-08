@@ -1,6 +1,9 @@
 //Autor: Justin Rhyner
 //Dateiname: Lauflicht
 //Datum: 08.08.2018
+//Ich habe ein Kleines Lauflicht gemacht, welches zwei Taster besitzt. Jeder der beiden Taster steht für eine Richtung, sobald ein Taster gedückt wird startet
+//das Lauflicht in die entsprechende Richtung. Währent dem betrieb kann mit den gleichen Tasten die Richtung gewechselt werden und sobald beide Taster gedrückt
+//werden, bleibt das Licht stehen. Sobald nun wieder eine Taste gedrückt wird, läuft das Licht in die entsprechende Richtung weiter.
 
 
 #include <avr/io.h>
@@ -10,6 +13,7 @@ uint16_t x=0;
 uint16_t wert=0;
 uint8_t stop=0;
 uint8_t taster=0;
+uint8_t anzahl=0;
 
 
 int main (void) 
@@ -25,6 +29,7 @@ int main (void)
 	{
 		if(!(PINC&(1<<PC4))) //Taster 1 abfragen
 		{
+	//		anzahl++;
 			taster=1;
 			wert=wert; //wert soll seinen Wert bei behalten
 		}
@@ -44,7 +49,7 @@ int main (void)
 		
 		
 		PORTB=wert;	//ausgabe von wert auf Port B
-		for(x=0;x<20000;x++); //Zeitverzögerung
+		for(x=0;x<30000;x++); //Zeitverzögerung
 		
 		if(taster==1)
 		{
@@ -73,15 +78,39 @@ int main (void)
 		}
 		
 		
-		if(taster==3)
+		if(taster==3) //falls beide taster gedrückt werden
 		{
-			stop=1; 
+			stop=1;    
 		}
 		
 		if(stop==1)
 		{
 			wert=wert; //die LED bleibt am Ort stehen
 		}
+		
+		
+		
+		/*
+		
+		if(anzahl==2)
+		{
+			wert=wert*4;
+		}
+		
+		if(wert>128) //weil wir nur 8 LEDs haben, wird nach 128 wieder bei 1 angefangen
+		{
+			wert=1;
+		}
+		
+		if(anzahl>2)
+		{
+			anzahl=0;
+		}
+		
+		
+		*/
+		
+		
 		
 	}
 	
